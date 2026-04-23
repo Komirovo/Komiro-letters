@@ -1,0 +1,14 @@
+{
+  "name": "komiro-letters",
+  "version": "1.0.0",
+  "description": "Daily letters from Claude to Komiro",
+  "scripts": {
+    "write": "node scripts/write-letter.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
