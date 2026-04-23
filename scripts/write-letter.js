@@ -43,10 +43,16 @@ async function breathOmbre() {
 
   const text = await breathRes.text();
   let parsed;
-  if (text.startsWith('data:')) {
-    const lines = text.split('\n').filter(l => l.startsWith('data:'));
-    const last = lines[lines.length - 1].replace('data:', '').trim();
-    parsed = JSON.parse(last);
+  // 解析 SSE 格式（含 event: 行）
+  const dataLines = text.split('\n')
+    .filter(l => l.startsWith('data:'))
+    .map(l => l.replace(/^data:\s*/, '').trim())
+    .filter(l => l && l !== '[DONE]');
+  
+  if (dataLines.length > 0) {
+    // 找最后一个包含 result 的
+    const resultLine = dataLines.slice().reverse().find(l => l.includes('"result"'));
+    parsed = JSON.parse(resultLine || dataLines[dataLines.length - 1]);
   } else {
     parsed = JSON.parse(text);
   }
