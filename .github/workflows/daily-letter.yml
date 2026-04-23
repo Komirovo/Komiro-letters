@@ -14,18 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Show structure
-        run: ls -la && ls -la */
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Run
         run: npm install && node scripts/write-letter.js
-        env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          OMBRE_API_URL: ${{ secrets.OMBRE_API_URL }}
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           OMBRE_API_URL: ${{ secrets.OMBRE_API_URL }}
