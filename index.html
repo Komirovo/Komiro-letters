@@ -235,18 +235,12 @@
           letterFiles.map(async (file) => {
             const contentResponse = await fetch(file.download_url);
             const content = await contentResponse.text();
-            
-            // 解析frontmatter和正文
-            const parts = content.split('---\n');
-            const frontmatter = parts[1];
-            const body = parts[2].trim();
-            
-            const dateMatch = frontmatter.match(/date: (.+)/);
-            const date = dateMatch ? dateMatch[1] : file.name.replace('.md', '');
-            
-            return { date, content: body };
-          })
-        );
+
+            // 我们的信件格式：正文 + \n\n---\n*日期*
+const body = content.split('\n\n---\n')[0].trim();
+const date = file.name.replace('.md', '');
+
+return { date, content: body };
         
         // 渲染信件
         container.innerHTML = letters.map(letter => `
