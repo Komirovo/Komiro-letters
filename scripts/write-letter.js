@@ -4,11 +4,19 @@ import { execSync } from 'child_process';
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 const OMBRE_API_URL = process.env.OMBRE_API_URL;
 
+// 获取韩国时区的日期（UTC+9）
 const now = new Date();
-const dateKST = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
-const dateStr = dateKST.toISOString().split('T')[0];
+const dateStr = new Intl.DateTimeFormat('sv-SE', { 
+  timeZone: 'Asia/Seoul' 
+}).format(now);  // 格式: YYYY-MM-DD
+
+const dateKST = new Date(dateStr + 'T23:00:00+09:00');
 const dateDisplay = dateKST.toLocaleDateString('zh-CN', {
-  year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+  timeZone: 'Asia/Seoul',
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric', 
+  weekday: 'long'
 });
 
 async function breathOmbre() {
